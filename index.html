@@ -76,17 +76,15 @@
         <form>
             <label for="id">Persons ID: </label>
             <input type="text" width="13%" id="id" name="id">  
-            <input type="submit" value="Submit" onclick="openConnection(document.getElementById('id').innerText)">
+            <button onclick="openConnection(document.getElementById('id').innerText)">Connect</button>
         </form><br>
         <button>Create Call</button><button>Allow Calls</button><br>
         <video width="5%" id="you" src=""></video><video width="5%" id="other" src=""></video>
         <div width="100%" height="45%" id="chatLogs"></div>
         <hr>
-        <form>
             <label for="ctext">Chat text: </label>
             <input type="text" width="50%" id="ctext" name="ctext">  
-            <input type="submit" value="Submit" onclick="sendText(document.getElementById('ctext').innerText)">
-        </form>
+            <button onclick="sendText(document.getElementById('ctext').innerText)">Send</button>
         <hr>
         <p>Copyright Sparksammy. Licensed under the <a href="https://raw.githubusercontent.com/sparksammy/PhoneKord/master/LICENSE">MIT license.</a></p>
     </body>
