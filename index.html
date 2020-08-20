@@ -4,14 +4,14 @@
         <title>PhoneKord</title>
         <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
         <script>
-            var randomizedIDHack = Math.floor(Math.random() * Math.floor(99999999)).toString()
-            var peer = new Peer();
-            var hacky = new Peer(randomizedIDHack);
-            var conn = peer.connect(randomizedIDHack);
+            var randomizedIDHack = `kord_${Math.floor(Math.random() * Math.floor(99999999)).toString()}`
+            var peer = new Peer(randomizedIDHack);
+            var conn = peer.connect(peer.id);
             var whoAmITalkingTo
             var videoCall = false
             var allowCalls = false
             function openConnection(phoneKordID) {
+                console.log(`Opening connection to ${phoneKordID}`)
                 conn = peer.connect(phoneKordID.toString());
                 whoAmITalkingTo = phoneKordID
             }
@@ -28,9 +28,8 @@
                 videoCall = bool
             } 
             // on open will be launch when you successfully connect to PeerServer
-            conn.on('open', function(id){
-                // here you have conn.id
-                document.getElementById('yourId').innerText = id.toString()
+            conn.on('open', function(id) {
+                console.log(`Connection opened`)
                 function sendText(textdata) {
                     conn.send(textdata);
                 }
@@ -68,16 +67,16 @@
                 }
             });
 
-            openConnection(randomizedIDHack);
+            setTimeout("document.getElementById('yourId').innerHTML = peer.id", 3000)
         </script>
     </head>
     <body>
         <p>Your ID: <b id="yourId"></b></p>
-        <form>
+        
             <label for="id">Persons ID: </label>
             <input type="text" width="13%" id="id" name="id">  
             <button onclick="openConnection(document.getElementById('id').innerText)">Connect</button>
-        </form><br>
+        <br>
         <button>Create Call</button><button>Allow Calls</button><br>
         <video width="5%" id="you" src=""></video><video width="5%" id="other" src=""></video>
         <div width="100%" height="45%" id="chatLogs"></div>
