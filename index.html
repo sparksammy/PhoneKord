@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PhoneKord</title>
+        <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+        <script>
+            var peer = new Peer();
+            var conn
+            var whoAmITalkingTo
+            var videoCall = false
+            var allowCalls = false
+            function openConnection(phoneKordID) {
+                conn = peer.connect(phoneKordID.toString());
+                whoAmITalkingTo = phoneKordID
+            }
+
+            function allowCallsToggle() {
+                if (allowCalls == false) {
+                    allowCalls = true
+                } else {
+                    allowCalls = false
+                }
+            }
+
+            function setVideoCall(bool) {
+                videoCall = bool
+            } 
+            // on open will be launch when you successfully connect to PeerServer
+            conn.on('open', function(id){
+                // here you have conn.id
+                document.getElementById('yourId').innerText = id.toString()
+                function sendText(textdata) {
+                    conn.send(textdata);
+                }
+
+                conn.on('data', function(data){
+                    document.getElementById('chatLogs').innerHTML += `${data.toString()}<br>`
+                });
+
+                function call(allowCalls) {
+                    var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+                    if (allowCalls) {
+                    peer.on('call', function(call) {
+                    getUserMedia({video: videoCall, audio: true}, function(stream) {
+                        var call = peer.call(whoAmITalkingTo, stream);
+                        call.on('stream', function(remoteStream) {
+                            document.getElementById('you').src = remoteStream
+                        });
+                    }, function(err) {
+                        console.log('Failed to get local stream' ,err);
+                    });
+                    });
+                    }
+                }
+
+                function pickUp() {
+                    var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+                    getUserMedia({video: videoCall, audio: true}, function(stream) {
+                        call.answer(stream); // Answer the call with an A/V stream.
+                        call.on('stream', function(remoteStream) {
+                            document.getElementById('other').src = remoteStream
+                        });
+                    }, function(err) {
+                        console.log('Failed to get local stream' ,err);
+                    });
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <p>Your ID: <b id="yourId"></b></p>
+        <form>
+            <label for="id">Persons ID: </label>
+            <input type="text" width="13%" id="id" name="id">  
+            <input type="submit" value="Submit" onclick="openConnection(document.getElementById('id').innerText)">
+        </form><br>
+        <button>Create Call</button><button>Allow Calls</button><br>
+        <video width="5%" id="you" src=""></video><video width="5%" id="other" src=""></video>
+        <div width="100%" height="45%" id="chatLogs"></div>
+        <hr>
+        <form>
+            <label for="ctext">Chat text: </label>
+            <input type="text" width="50%" id="ctext" name="ctext">  
+            <input type="submit" value="Submit" onclick="sendText(document.getElementById('ctext').innerText)">
+        </form>
+        <hr>
+        <p>Copyright Sparksammy. Licensed under the <a href="https://raw.githubusercontent.com/sparksammy/PhoneKord/master/LICENSE">MIT license.</a></p>
+    </body>
+</html>
