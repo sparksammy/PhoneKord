@@ -1,2 +1,2 @@
 # PhoneKord
-PhoneKord is a simple messaging app written in PeerJS
+PhoneKord is a WIP messaging app written in PeerJS.
