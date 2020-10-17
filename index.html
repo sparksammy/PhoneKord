@@ -23,6 +23,11 @@
                 } else {
                     allowCalls = false
                 }
+                document.getElementById('allowCalls').innerText = String(allowCalls)
+            }
+
+            function getAllowCalls() {
+                return allowCalls;
             }
 
             function setVideoCall(bool) {
@@ -74,12 +79,12 @@
     </head>
     <body>
         <p>Your ID: <b id="yourId"></b></p>
-        
+        <p>Calls allowed: <b id="allowCalls">false</b></p>
             <label for="id">Persons ID: </label>
             <input type="text" width="13%" id="id" name="id">  
             <button onclick="openConnection(document.getElementById('id').innerText)">Connect</button>
         <br>
-        <button onclick="call(allowCalls)">Create Call</button><button onclick="allowCallsToggle()">Allow Calls</button><br>
+        <button onclick="call(getAllowCalls())">Create Call</button><button onclick="allowCallsToggle()">Allow Calls</button><br>
         <video width="5%" id="you" src=""></video><video width="5%" id="other" src=""></video>
         <div width="100%" height="45%" id="chatLogs"></div>
         <hr>
