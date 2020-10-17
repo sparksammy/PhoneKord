@@ -3,6 +3,7 @@
     <head>
         <title>PhoneKord</title>
         <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+        <script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
         <script>
             var randomizedIDHack = `kord_${Math.floor(Math.random() * Math.floor(99999999)).toString()}`
             var peer = new Peer(randomizedIDHack);
@@ -30,8 +31,9 @@
             // on open will be launch when you successfully connect to PeerServer
             conn.on('open', function(id) {
                 console.log(`Connection opened`)
-                function sendText(textdata) {
-                    conn.send(textdata);
+                function sendText(textdata) 
+                    var textit = filterXSS(textdata); // XSS Filter.
+                    conn.send(textit);
                 }
 
                 conn.on('data', function(data){
