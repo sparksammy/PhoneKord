@@ -82,7 +82,7 @@
         <p>Calls allowed: <b id="allowCalls">false</b></p>
             <label for="id">Persons ID: </label>
             <input type="text" width="13%" id="id" name="id">  
-            <button onclick="openConnection(document.getElementById('id').innerText)">Connect</button>
+            <button onclick="openConnection(document.getElementById('id').value)">Connect</button>
         <br>
         <button onclick="call(getAllowCalls())">Create Call</button><button onclick="allowCallsToggle()">Allow Calls</button><br>
         <video width="5%" id="you" src=""></video><video width="5%" id="other" src=""></video>
@@ -90,7 +90,7 @@
         <hr>
             <label for="ctext">Chat text: </label>
             <input type="text" width="50%" id="ctext" name="ctext">  
-            <button onclick="sendText(document.getElementById('ctext').innerText)">Send</button>
+            <button onclick="sendText(document.getElementById('ctext').value)">Send</button>
         <hr>
         <p>Copyright Sparksammy. Licensed under the <a href="https://raw.githubusercontent.com/sparksammy/PhoneKord/master/LICENSE">MIT license.</a></p>
     </body>
