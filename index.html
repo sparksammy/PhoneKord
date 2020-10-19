@@ -6,7 +6,7 @@
         <script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
         <script>
             var randomizedIDHack = `kord_${Math.floor(Math.random() * Math.floor(99999999)).toString()}`
-            var peer = new Peer(randomizedIDHack, {key: "phonekordFTW777", host: "0.peerjs.com"});
+            var peer = new Peer(randomizedIDHack, ["phonekordFTW777", "0.peerjs.com"]);
             var whoAmITalkingTo
             var conn = peer.connect(randomizedIDHack.toString()); 
             var videoCall = false
