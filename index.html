@@ -6,8 +6,8 @@
         <script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
         <script>
             var randomizedIDHack = `kord_${Math.floor(Math.random() * Math.floor(99999999)).toString()}`
-            var peer = new Peer(randomizedIDHack);
-            var conn = peer.connect(peer.id);
+            var peer = new Peer(randomizedIDHack, ["phonekordFTW777", "0.peerjs.com"]);
+            var conn
             var whoAmITalkingTo
             var videoCall = false
             var allowCalls = false
@@ -26,6 +26,7 @@
                 document.getElementById('allowCalls').innerText = String(allowCalls)
             }
 
+
             function getAllowCalls() {
                 return allowCalls;
             }
@@ -33,9 +34,18 @@
             function setVideoCall(bool) {
                 videoCall = bool
             } 
+
+            function allowVideoToggle() {
+                if (videoCall == false) {
+                    setVideoCall(true)
+                } else {
+                    setVideoCall(false)
+                }
+                document.getElementById('allowVideo').innerText = String(videoCall)
+            }
             // on open will be launch when you successfully connect to PeerServer
             conn.on('open', function(id) {
-                console.log(`Connection opened`)
+                console.log(`Connection opened. ID: ${id}`)
                 function sendText(textdata) {
                     var textit = filterXSS(textdata); // XSS Filter.
                     conn.send(textit);
@@ -80,11 +90,12 @@
     <body>
         <p>Your ID: <b id="yourId"></b></p>
         <p>Calls allowed: <b id="allowCalls">false</b></p>
+        <p>Video allowed: <b id="allowVideo">false</b></p>
             <label for="id">Persons ID: </label>
             <input type="text" width="13%" id="id" name="id">  
             <button onclick="openConnection(document.getElementById('id').value)">Connect</button>
         <br>
-        <button onclick="call(getAllowCalls())">Create Call</button><button onclick="allowCallsToggle()">Allow Calls</button><br>
+        <button onclick="call(getAllowCalls())">Create Call</button><button onclick="pickUp()">Pick up</button><br><button onclick="allowCallsToggle()">Allow Calls</button><button onclick="allowVideoToggle()">Allow Video</button><br>
         <video width="5%" id="you" src=""></video><video width="5%" id="other" src=""></video>
         <div width="100%" height="45%" id="chatLogs"></div>
         <hr>
