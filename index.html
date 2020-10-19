@@ -7,12 +7,13 @@
         <script>
             var randomizedIDHack = `kord_${Math.floor(Math.random() * Math.floor(99999999)).toString()}`
             var peer = new Peer(randomizedIDHack, ["phonekordFTW777", "0.peerjs.com"]);
-            var conn
+            var conn = peer.connect(randomizedIDHack.toString());
             var whoAmITalkingTo
             var videoCall = false
             var allowCalls = false
             function openConnection(phoneKordID) {
                 console.log(`Opening connection to ${phoneKordID}`)
+                peer.disconnect();
                 conn = peer.connect(phoneKordID.toString());
                 whoAmITalkingTo = phoneKordID
             }
@@ -46,9 +47,7 @@
             // on open will be launch when you successfully connect to PeerServer
             conn.on('open', function(id) {
                 console.log(`Connection opened. ID: ${id}`)
-            });
-
-            function sendText(textdata) {
+                function sendText(textdata) {
                     var textit = filterXSS(textdata); // XSS Filter.
                     conn.send(textit);
                 }
@@ -84,6 +83,7 @@
                         console.log('Failed to get local stream' ,err);
                     });
                 }
+            });
 
             setTimeout("document.getElementById('yourId').innerHTML = peer.id", 3000)
         </script>
