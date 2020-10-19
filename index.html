@@ -47,8 +47,10 @@
                 console.log(`Opening connection to ${phoneKordID}`)
                 conn = peer.connect(phoneKordID.toString());
                 whoAmITalkingTo = phoneKordID
-                // on open will be launch when you successfully connect to PeerServer
-                conn.on('open', function(id) {
+            }
+
+             // on open will be launch when you successfully connect to PeerServer
+            conn.on('open', function(id) {
                 console.log(`Connection opened. ID: ${id}`)
                 function sendText(textdata) {
                     var textit = filterXSS(textdata); // XSS Filter.
@@ -86,7 +88,6 @@
                     });
                 }
             });
-            }
             setTimeout("document.getElementById('yourId').innerHTML = peer.id", 3000)
         </script>
     </head>
