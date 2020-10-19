@@ -45,6 +45,7 @@
             }
             function openConnection(phoneKordID) {
                 console.log(`Opening connection to ${phoneKordID}`)
+                peer.disconnect();
                 conn = peer.connect(phoneKordID.toString());
                 whoAmITalkingTo = phoneKordID
             }
@@ -97,7 +98,7 @@
         <p>Video allowed: <b id="allowVideo">false</b></p>
             <label for="id">Persons ID: </label>
             <input type="text" width="13%" id="id" name="id">  
-            <button onclick="disco(); openConnection(document.getElementById('id').value)">Connect</button>
+            <button onclick="openConnection(document.getElementById('id').value)">Connect</button>
         <br>
         <button onclick="call(getAllowCalls())">Create Call</button><button onclick="pickUp()">Pick up</button><br><button onclick="allowCallsToggle()">Allow Calls</button><button onclick="allowVideoToggle()">Allow Video</button><br><button onclick="disco()">Hang Up</button>
         <video width="5%" id="you" src=""></video><video width="5%" id="other" src=""></video>
