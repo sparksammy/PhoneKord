@@ -6,16 +6,19 @@
         <script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
         <script>
             var randomizedIDHack = `kord_${Math.floor(Math.random() * Math.floor(99999999)).toString()}`
-            var peer = new Peer(randomizedIDHack, ["phonekordFTW777", "0.peerjs.com"]);
-            var conn = peer.connect(randomizedIDHack.toString());
+            var peer = new Peer(randomizedIDHack, {key: "phonekordFTW777", host: "0.peerjs.com"});
             var whoAmITalkingTo
+            var conn
             var videoCall = false
             var allowCalls = false
             function openConnection(phoneKordID) {
                 console.log(`Opening connection to ${phoneKordID}`)
-                peer.disconnect();
                 conn = peer.connect(phoneKordID.toString());
                 whoAmITalkingTo = phoneKordID
+            }
+
+            function disco() {
+                peer.disconnect();
             }
 
             function allowCallsToggle() {
