@@ -11,11 +11,7 @@
             var conn
             var videoCall = false
             var allowCalls = false
-            function openConnection(phoneKordID) {
-                console.log(`Opening connection to ${phoneKordID}`)
-                conn = peer.connect(phoneKordID.toString());
-                whoAmITalkingTo = phoneKordID
-            }
+            
 
             function disco() {
                 peer.disconnect();
@@ -47,8 +43,12 @@
                 }
                 document.getElementById('allowVideo').innerText = String(videoCall)
             }
-            // on open will be launch when you successfully connect to PeerServer
-            conn.on('open', function(id) {
+            function openConnection(phoneKordID) {
+                console.log(`Opening connection to ${phoneKordID}`)
+                conn = peer.connect(phoneKordID.toString());
+                whoAmITalkingTo = phoneKordID
+                // on open will be launch when you successfully connect to PeerServer
+                conn.on('open', function(id) {
                 console.log(`Connection opened. ID: ${id}`)
                 function sendText(textdata) {
                     var textit = filterXSS(textdata); // XSS Filter.
@@ -74,7 +74,6 @@
                     });
                     }
                 }
-
                 function pickUp() {
                     var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
                     getUserMedia({video: videoCall, audio: true}, function(stream) {
@@ -87,7 +86,7 @@
                     });
                 }
             });
-
+            }
             setTimeout("document.getElementById('yourId').innerHTML = peer.id", 3000)
         </script>
     </head>
