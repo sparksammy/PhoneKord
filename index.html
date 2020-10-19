@@ -46,7 +46,9 @@
             // on open will be launch when you successfully connect to PeerServer
             conn.on('open', function(id) {
                 console.log(`Connection opened. ID: ${id}`)
-                function sendText(textdata) {
+            });
+
+            function sendText(textdata) {
                     var textit = filterXSS(textdata); // XSS Filter.
                     conn.send(textit);
                 }
@@ -82,7 +84,6 @@
                         console.log('Failed to get local stream' ,err);
                     });
                 }
-            });
 
             setTimeout("document.getElementById('yourId').innerHTML = peer.id", 3000)
         </script>
