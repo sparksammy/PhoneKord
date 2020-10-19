@@ -4,103 +4,15 @@
         <title>PhoneKord</title>
         <script src="thirdparty-js/peerjs.min.js"></script>
         <script src="thirdparty-js/xss.js"></script>
-        <script>
-            var randomizedIDHack = `kord_${Math.floor(Math.random() * Math.floor(99999999)).toString()}`
-            var peer = new Peer(randomizedIDHack);
-            var whoAmITalkingTo
-            var conn = peer.connect(randomizedIDHack.toString()); 
-            var videoCall = false
-            var allowCalls = false
-            
-
-            function disco() {
-                peer.disconnect();
-            }
-
-            function allowCallsToggle() {
-                if (allowCalls == false) {
-                    allowCalls = true
-                } else {
-                    allowCalls = false
-                }
-                document.getElementById('allowCalls').innerText = String(allowCalls)
-            }
-
-
-            function getAllowCalls() {
-                return allowCalls;
-            }
-
-            function setVideoCall(bool) {
-                videoCall = bool
-            } 
-
-            function allowVideoToggle() {
-                if (videoCall == false) {
-                    setVideoCall(true)
-                } else {
-                    setVideoCall(false)
-                }
-                document.getElementById('allowVideo').innerText = String(videoCall)
-            }
-            function openConnection(phoneKordID) {
-                console.log(`Opening connection to ${phoneKordID}`)
-                peer.disconnect();
-                conn = peer.connect(phoneKordID.toString());
-                whoAmITalkingTo = phoneKordID
-            }
-
-             // on open will be launch when you successfully connect to PeerServer
-            conn.on('open', function(id) {
-                console.log(`Connection opened. ID: ${id}`)
-                function sendText(textdata) {
-                    var textit = filterXSS(textdata); // XSS Filter.
-                    conn.send(textit);
-                }
-
-                conn.on('data', function(data){
-                    document.getElementById('chatLogs').innerHTML += `${data.toString()}<br>`
-                });
-
-                function call(allowCalls) {
-                    var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-                    if (allowCalls) {
-                    peer.on('call', function(call) {
-                    getUserMedia({video: videoCall, audio: true}, function(stream) {
-                        var call = peer.call(whoAmITalkingTo, stream);
-                        call.on('stream', function(remoteStream) {
-                            document.getElementById('you').src = remoteStream
-                        });
-                    }, function(err) {
-                        console.log('Failed to get local stream' ,err);
-                    });
-                    });
-                    }
-                }
-                function pickUp() {
-                    var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-                    getUserMedia({video: videoCall, audio: true}, function(stream) {
-                        call.answer(stream); // Answer the call with an A/V stream.
-                        call.on('stream', function(remoteStream) {
-                            document.getElementById('other').src = remoteStream
-                        });
-                    }, function(err) {
-                        console.log('Failed to get local stream' ,err);
-                    });
-                }
-            });
-            setTimeout("document.getElementById('yourId').innerHTML = peer.id", 3000)
-        </script>
+        <script src="js/main.js"></script>
     </head>
     <body>
         <p>Your ID: <b id="yourId"></b></p>
         <p>Calls allowed: <b id="allowCalls">false</b></p>
         <p>Video allowed: <b id="allowVideo">false</b></p>
-            <label for="id">Persons ID: </label>
-            <input type="text" width="13%" id="id" name="id">  
-            <button onclick="openConnection(document.getElementById('id').value)">Connect</button>
+            <button onclick="openConnection()">Connect</button>
         <br>
-        <button onclick="call(getAllowCalls())">Create Call</button><button onclick="pickUp()">Pick up</button><br><button onclick="allowCallsToggle()">Allow Calls</button><button onclick="allowVideoToggle()">Allow Video</button><br><button onclick="disco()">Hang Up</button>
+        <button onclick="call(getAllowCalls(), document.getElementById('oid').value)">Create Call</button><button onclick="answer()">Pick up</button><br><button onclick="allowCallsToggle()">Allow Audio</button><button onclick="allowVideoToggle()">Allow Video</button><br><button onclick="disco()">Hang Up</button>
         <video width="5%" id="you" src=""></video><video width="5%" id="other" src=""></video>
         <div width="100%" height="45%" id="chatLogs"></div>
         <hr>
