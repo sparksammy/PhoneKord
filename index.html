@@ -8,7 +8,7 @@
             var randomizedIDHack = `kord_${Math.floor(Math.random() * Math.floor(99999999)).toString()}`
             var peer = new Peer(randomizedIDHack, {key: "phonekordFTW777", host: "0.peerjs.com"});
             var whoAmITalkingTo
-            var conn
+            var conn = peer.connect(randomizedIDHack.toString()); 
             var videoCall = false
             var allowCalls = false
             
@@ -96,7 +96,7 @@
         <p>Video allowed: <b id="allowVideo">false</b></p>
             <label for="id">Persons ID: </label>
             <input type="text" width="13%" id="id" name="id">  
-            <button onclick="openConnection(document.getElementById('id').value)">Connect</button>
+            <button onclick="disco(); openConnection(document.getElementById('id').value)">Connect</button>
         <br>
         <button onclick="call(getAllowCalls())">Create Call</button><button onclick="pickUp()">Pick up</button><br><button onclick="allowCallsToggle()">Allow Calls</button><button onclick="allowVideoToggle()">Allow Video</button><br><button onclick="disco()">Hang Up</button>
         <video width="5%" id="you" src=""></video><video width="5%" id="other" src=""></video>
