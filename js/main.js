@@ -38,7 +38,7 @@ var randomizedIDHack = `kord_${Math.floor(Math.random() * Math.floor(99999999)).
             }
             function openConnection() {
                 peer.disconnect();
-                var destId = prompt("Peer ID to connect with:")
+                var destId = randomizedIDHack
                 console.log(`Opening connection to ${destId}`)
                 conn = peer.connect(destId, {
                     reliable: true
@@ -99,3 +99,4 @@ var randomizedIDHack = `kord_${Math.floor(Math.random() * Math.floor(99999999)).
             }
 
             setTimeout("document.getElementById('yourId').innerHTML = peer.id", 3000)
+            setTimeout("openConnection()", 3200)
